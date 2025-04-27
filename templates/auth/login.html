@@ -1,0 +1,73 @@
+{% extends './base.html' %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
+<header class="header">
+    <div class="logo">BioFarma Colón</div>
+    <nav class="nav-links">
+        <a href="#">Características</a>
+        <a href="#">Soluciones</a>
+        <a href="#">Recursos</a>
+        <a href="#">Precios</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-heading">Impulsa tu <span>crecimiento empresarial</span></h1>
+            <p class="hero-text">Descubre nuevas oportunidades con soluciones innovadoras basadas en inteligencia artificial.</p>
+            <div class="cta-container">
+                <button class="cta-button">Comenzar prueba gratuita</button>
+                <button class="cta-button" style="background: var(--primary-300);">Ver demostración</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-section">
+        <div class="signin-card">
+            <h2>Bienvenido de nuevo</h2>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <br />
+                {% for message in messages %}
+                    <div class="alert alert-primary alert-dismissible" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form class="form-signin" action="{{ url_for('login') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-email"></i>
+                    <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+                </div>
+
+                <button class="submit-btn" type="submit">Iniciar sesión</button>
+            </form>
+
+            <div class="alternate-action">
+                ¿No tienes cuenta? <a href="{{ url_for('register') }}">Regístrate aquí</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
